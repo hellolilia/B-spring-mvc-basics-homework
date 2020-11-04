@@ -14,14 +14,14 @@ import java.util.Set;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResult> handle(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Error> handle(MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldError().getDefaultMessage();
-        ErrorResult errorResult = new ErrorResult(message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+        Error error = new Error(400, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResult> handle(ConstraintViolationException ex) {
+    public ResponseEntity<Error> handle(ConstraintViolationException ex) {
         Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
 
         String message = "";
@@ -29,13 +29,13 @@ public class GlobalExceptionHandler {
             message = constraint.getMessage();
             break;
         }
-        ErrorResult errorResult = new ErrorResult(message);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+        Error error = new Error(400, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(UsernameExistException.class)
-    public ResponseEntity<ErrorResult> handle(UsernameExistException ex) {
-        ErrorResult errorResult = new ErrorResult(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+    public ResponseEntity<Error> handle(UsernameExistException ex) {
+        Error error = new Error(400, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
