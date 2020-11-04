@@ -16,6 +16,7 @@ public class UserService {
         if (userMap.containsKey(user.getUsername())) {
             throw new UsernameExistException("用户已存在");
         }
+        user.setId(userMap.size()+1);
         userMap.put(user.getUsername(), user);
     }
 }
