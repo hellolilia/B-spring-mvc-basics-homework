@@ -38,4 +38,10 @@ public class GlobalExceptionHandler {
         Error error = new Error(400, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(WrongUserException.class)
+    public ResponseEntity<Error> handle(WrongUserException ex) {
+        Error error = new Error(400, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }
